@@ -1,0 +1,13 @@
+flowchart LR
+    UI[管理端 / 会话工作台] --> API[cmd AI Handlers]
+    MSG[Conversation 分配或客户新消息] --> AW[aiagent Worker]
+    API --> AI[internal/ai Manager]
+    AW --> AI
+    AI --> CP[Completion Provider]
+    AI --> EP[Embedding Provider]
+    AI --> IDX[内存向量索引]
+    AI --> HT[自定义 HTTP Tool]
+    AW --> CONV[Conversation Manager]
+    AW --> OTP[Redis OTP 状态]
+    AW --> NOTIFY[Email Notification]
+    IDX <--> DB[(PostgreSQL embeddings)]

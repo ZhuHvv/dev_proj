@@ -1,0 +1,11 @@
+erDiagram
+    USERS ||--o{ CONVERSATIONS : contact
+    INBOXES ||--o{ CONVERSATIONS : receives
+    CONVERSATIONS ||--o{ CONVERSATION_MESSAGES : contains
+    USERS ||--o{ CONVERSATION_MESSAGES : sends
+    USERS ||--o{ CONVERSATIONS : assigned_agent
+    TEAMS ||--o{ CONVERSATIONS : assigned_team
+    CONVERSATION_STATUSES ||--o{ CONVERSATIONS : state
+    SLA_POLICIES ||--o{ APPLIED_SLAS : defines
+    CONVERSATIONS ||--o{ APPLIED_SLAS : tracks
+    APPLIED_SLAS ||--o{ SLA_EVENTS : metrics

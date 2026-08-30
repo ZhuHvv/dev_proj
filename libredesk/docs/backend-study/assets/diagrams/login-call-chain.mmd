@@ -1,0 +1,17 @@
+sequenceDiagram
+    participant C as Client
+    participant H as handleLogin
+    participant U as User Manager
+    participant A as Auth
+    participant R as Redis
+    participant DB as PostgreSQL
+
+    C->>H: POST /api/v1/auth/login
+    H->>H: Decode + 非空校验
+    H->>U: VerifyPassword(email, password)
+    U->>DB: 查询用户并验证密码
+    H->>A: SaveSession(user)
+    A->>R: 保存 Session
+    H->>A: SetCSRFCookie()
+    H->>DB: 更新 last_login_at + activity_log
+    H-->>C: 用户数据 + Session/CSRF Cookie

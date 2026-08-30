@@ -1,0 +1,23 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><link rel="stylesheet" href="diagram-theme.css"><style>html,body{width:720px;height:620px}</style></head><body>
+<svg width="720" height="620" viewBox="0 0 720 620" role="img"></svg>
+<script src="diagram-runtime.js"></script><script>
+initDiagram('客服发送消息流水线', '将同步落库和后台异步投递拆分为两个阶段。')
+panel({x:20,y:20,w:680,h:246,title:'同步请求：先可靠落库',note:'HTTP 返回 pending Message，外部渠道投递在事务提交后进行',number:'1',color:'#79a6df',fill:'#f5f9ff'})
+nodeBox({x:38,y:88,w:145,h:72,kind:'blue',owner:'AGENT UI / HANDLER',lines:['请求与校验'],sub:'身份 · 权限 · 附件'})
+nodeBox({x:205,y:88,w:145,h:72,kind:'purple',owner:'CONVERSATION',lines:['QueueReply']})
+nodeBox({x:372,y:80,w:160,h:88,kind:'green',owner:'POSTGRESQL TX',lines:['INSERT pending','关联附件并 COMMIT']})
+nodeBox({x:554,y:88,w:128,h:72,kind:'green',owner:'RESULT',lines:['返回 pending'],sub:'广播消息快照'})
+edge('M183 124 H205'); edge('M350 124 H372'); edge('M532 124 H554')
+nodeBox({x:200,y:190,w:320,h:48,kind:'gray',lines:['事务边界只覆盖 Message 与附件关联']})
+edge('M452 168 V190','edge-soft')
+panel({x:20,y:286,w:680,h:314,title:'后台投递：扫描 pending 并更新状态',note:'Worker 与 HTTP 请求解耦，发送结果重新写回数据库并广播',number:'2',color:'#9a89d5',fill:'#faf9ff'})
+nodeBox({x:38,y:352,w:140,h:68,kind:'green',owner:'POSTGRESQL',lines:['扫描 pending'],sub:'scan interval'})
+nodeBox({x:205,y:352,w:140,h:68,kind:'purple',owner:'SENDER WORKER',lines:['领取并发送']})
+nodeBox({x:372,y:352,w:140,h:68,kind:'orange',owner:'INBOX CHANNEL',lines:['Send(outbound)']})
+diamond({cx:610,cy:386,w:150,h:82,lines:['发送成功？']})
+edge('M178 386 H205'); edge('M345 386 H372'); edge('M512 386 H535')
+nodeBox({x:218,y:500,w:210,h:74,kind:'green',owner:'SUCCESS',lines:['status = sent'],sub:'广播状态 · 回复时间 · SLA'})
+nodeBox({x:476,y:500,w:206,h:74,kind:'red',owner:'FAILURE',lines:['status = failed'],sub:'广播失败状态'})
+edge('M577 420 L395 500','edge-soft'); edgeLabel(475,456,'是',{pill:true,width:30})
+edge('M643 420 L579 500','edge-soft'); edgeLabel(645,461,'否',{pill:true,width:30})
+</script></body></html>
