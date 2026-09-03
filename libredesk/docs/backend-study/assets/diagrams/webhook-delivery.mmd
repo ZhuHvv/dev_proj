@@ -1,7 +1,0 @@
-flowchart LR
-    E[Conversation/Message Event] --> Q[deliveryQueue]
-    Q --> W[Webhook Workers]
-    W --> F[按事件查询 Active Webhooks]
-    F --> S[序列化统一 Payload]
-    S --> H[HMAC-SHA256 签名]
-    H --> O[HTTP POST]

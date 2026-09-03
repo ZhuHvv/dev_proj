@@ -1,2 +1,0 @@
-backend：go run ./cmd/ --config config.dev.toml
-frontend:pnpm dev:main

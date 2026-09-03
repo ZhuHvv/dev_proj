@@ -1,8 +1,0 @@
-stateDiagram-v2
-    [*] --> Unverified
-    Unverified --> Pending: send_email_verification
-    Pending --> Pending: wrong code / attempts < 3
-    Pending --> Unverified: TTL 10m or third wrong attempt
-    Pending --> Verified: correct code, atomic Lua
-    Verified --> Unverified: TTL 30m
-    Verified --> Unverified: current contact email changed

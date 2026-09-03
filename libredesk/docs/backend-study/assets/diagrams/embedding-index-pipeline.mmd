@@ -1,9 +1,0 @@
-flowchart TD
-    S[Snippet / Help Article / Tag 变化] --> F[计算 content + provider fingerprint]
-    F --> C{Fingerprint 是否变化}
-    C -- 否 --> SKIP[跳过]
-    C -- 是 --> CHUNK[HTML 规范化与分块]
-    CHUNK --> BATCH[Token 限制与批量 Embedding]
-    BATCH --> TX[事务替换 PostgreSQL vectors]
-    TX --> MEM[替换内存 index 对应 source]
-    MEM --> FP[更新成功 fingerprint]
