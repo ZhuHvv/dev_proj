@@ -1,0 +1,39 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>两种消息机制，对应两类工作</title>
+<style>body{margin:0;background:white;color:#24262b;font-family:"Microsoft YaHei","PingFang SC",sans-serif}main{max-width:1120px;margin:24px auto;padding:0 24px}svg{display:block;width:100%;height:auto}p{font-size:16px;line-height:1.8;color:#626873;margin:16px 40px}@media print{main{margin:0;padding:0}}</style></head><body><main><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" role="img" aria-labelledby="01-messages-title 01-messages-desc">
+<title id="01-messages-title">两种消息机制，对应两类工作</title><desc id="01-messages-desc">定时业务先记录待发事实，资金事件通过半消息包裹本地资金工作；缓存双删另走直接发送。</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#626873"/></marker>
+<marker id="arrow-accent" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#ef233c"/></marker>
+<marker id="arrow-link" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#626873"/></marker>
+<marker id="open" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#626873" stroke-width="1.4"/></marker></defs>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<style>text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}</style>
+<rect x="40" y="32" width="8" height="32" rx="4" fill="#ef233c"/>
+<text x="64" y="56" fill="#24262b" font-size="28" font-weight="700" text-anchor="start">两种消息机制，对应两类工作</text>
+<path d="M 160.0 208 L 160.0 264" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<path d="M 160.0 352 L 160.0 408" fill="none" stroke="#626873" stroke-width="1.6" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<path d="M 800.0 208 L 800.0 264" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<path d="M 800.0 352 L 800.0 408" fill="none" stroke="#626873" stroke-width="1.6" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="16.0" y="220.0" width="48" height="28" rx="4" fill="white"/><text x="40.0" y="240.0" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">登记</text>
+<rect x="0.0" y="364.0" width="80" height="28" rx="4" fill="white"/><text x="40.0" y="384.0" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">定时发送</text>
+<rect x="632.0" y="364.0" width="96" height="28" rx="4" fill="white"/><text x="680.0" y="384.0" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">提交后可见</text>
+<rect x="40" y="120" width="240" height="88" rx="8" fill="#ffffff" stroke="#d3d6dc" stroke-width="1.6"/>
+<text x="160.0" y="156" fill="#24262b" font-size="16" font-weight="600" text-anchor="middle">确认超时 / 自动结算</text>
+<text x="160.0" y="184" fill="#626873" font-size="12" font-weight="500" text-anchor="middle">需要到期触发</text>
+<rect x="680" y="120" width="240" height="88" rx="8" fill="#ffffff" stroke="#d3d6dc" stroke-width="1.6"/>
+<text x="800.0" y="156" fill="#24262b" font-size="16" font-weight="600" text-anchor="middle">结算 / 退款 / 仲裁</text>
+<text x="800.0" y="184" fill="#626873" font-size="12" font-weight="500" text-anchor="middle">资金结果通知</text>
+<rect x="40" y="264" width="240" height="88" rx="8" fill="#fafafa" stroke="#969ca6" stroke-width="1.6"/>
+<text x="160.0" y="300" fill="#24262b" font-size="16" font-weight="600" text-anchor="middle">本地消息表</text>
+<text x="160.0" y="328" fill="#626873" font-size="12" font-weight="500" text-anchor="middle">PENDING → SENT / DEAD</text>
+<rect x="680" y="264" width="240" height="88" rx="8" fill="#ef233c" stroke="#ef233c" stroke-width="1.6"/>
+<text x="800.0" y="300" fill="white" font-size="16" font-weight="600" text-anchor="middle">MQ 半消息与本地工作</text>
+<text x="800.0" y="328" fill="#ffffff" font-size="12" font-weight="500" text-anchor="middle">成功后提交消息</text>
+<rect x="40" y="408" width="240" height="88" rx="8" fill="#ffffff" stroke="#d3d6dc" stroke-width="1.6"/>
+<text x="160.0" y="444" fill="#24262b" font-size="16" font-weight="600" text-anchor="middle">到期消费 → 业务用例</text>
+<text x="160.0" y="472" fill="#626873" font-size="12" font-weight="500" text-anchor="middle">另有数据库扫描兜底</text>
+<rect x="680" y="408" width="240" height="88" rx="8" fill="#ffffff" stroke="#d3d6dc" stroke-width="1.6"/>
+<text x="800.0" y="444" fill="#24262b" font-size="16" font-weight="600" text-anchor="middle">通知落库 / 实时推送</text>
+<text x="800.0" y="472" fill="#626873" font-size="12" font-weight="500" text-anchor="middle">两个消费组</text>
+<line x1="40" y1="544" x2="920" y2="544" stroke="#e5e7eb"/>
+<text x="40" y="576" fill="#626873" font-size="16" font-weight="500" text-anchor="start">CAMPUSDASH  /  源码流程 · 红色强调关键处理，非风险等级</text>
+</svg><p>定时业务先记录待发事实，资金事件通过半消息包裹本地资金工作；缓存双删另走直接发送。</p><p>虚线表示异步投递；本地消息表仅记录待发事实，不是已完成业务的证明。</p></main></body></html>

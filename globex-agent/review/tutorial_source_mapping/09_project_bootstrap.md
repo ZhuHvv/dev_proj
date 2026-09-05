@@ -15,7 +15,7 @@
 
 ## 启动主链
 
-[server/worker 进程入口](../../app/worker.py#L33) → [build_container()](../../app/composition.py#L129) → Settings → 仓库/外部客户端 → [MainAgentFactory](../../app/application/agents/main_agent.py#L59) → [MainAgentOrchestrator.handle_intent](../../app/application/agents/orchestrator.py#L140) → [build_app()](../../app/presentation/server.py#L54)。组装根位于 [composition.py](../../app/composition.py)，API 与 worker 共用同一套业务组装。
+API 启动：[模块末尾 app = build_app()](D:/codes/dev_proj/globex-agent/app/presentation/server.py:291) → 注册 FastAPI 路由和 lifespan → lifespan 启动时 build_container() → 创建 ConnectionManager → Container.startup() → 等待请求。收到意图后才调用 handle_intent；MainAgent 由 SessionRegistry 按需创建。worker 另从 [main()](D:/codes/dev_proj/globex-agent/app/worker.py:33) 进入 build_container() → startup() → consume()。组装函数、启动函数和请求处理函数不是一条连续的调用顺序。
 
 ## 请求主链
 

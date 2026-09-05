@@ -8,7 +8,7 @@
 
 ## 真实调用链
 
-[MainAgent 工具集](../../app/application/agents/main_agent.py#L106) → 模型依据 [派发 Prompt 规则](../../app/application/prompts/globex.yml#L51) 判断复杂度 → `TaskCreate/TaskUpdate` → [task_dispatch(agent=search|trade)](../../app/application/tools/task_dispatch_tool.py#L73) → [创建 SearchAgent](../../app/application/agents/search_agent.py#L84) 或 [TradeAgent](../../app/application/agents/trade_agent.py#L79) → 子 Agent 结果回主 Agent → [Orchestrator 输出最终流](../../app/application/agents/orchestrator.py#L329)。
+[MainAgent 工具集](../../app/application/agents/main_agent.py#L106) → 模型依据 [派发 Prompt 规则](../../app/application/prompts/globex.yml#L51) 判断复杂度 → `TaskCreate/TaskUpdate` → [task_dispatch(subagent_type, demands)](../../app/application/tools/task_dispatch_tool.py#L73) → [创建 SearchAgent](../../app/application/agents/search_agent.py#L84) 或 [TradeAgent](../../app/application/agents/trade_agent.py#L79) → 子 Agent 结果回主 Agent → [Orchestrator 输出最终流](../../app/application/agents/orchestrator.py#L329)。
 
 ## 数据与副作用
 

@@ -1,0 +1,33 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>商品检索：召回后再过滤</title>
+<style>body{margin:0;background:white;color:#24262b;font-family:"Microsoft YaHei","PingFang SC",sans-serif}main{max-width:1120px;margin:24px auto;padding:0 24px}svg{display:block;width:100%;height:auto}p{font-size:16px;line-height:1.8;color:#626873;margin:16px 40px}@media print{main{margin:0;padding:0}}</style></head><body><main><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 856" role="img" aria-labelledby="01-product-title 01-product-desc">
+<title id="01-product-title">商品检索：召回后再过滤</title><desc id="01-product-desc">主路径从问句向量化到商品卡，硬条件是配送与价格。</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#626873"/></marker>
+<marker id="arrow-accent" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#ef233c"/></marker>
+<marker id="arrow-link" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#626873"/></marker>
+<marker id="open" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#626873" stroke-width="1.4"/></marker></defs>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<style>text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}</style>
+<rect x="40" y="32" width="8" height="32" rx="4" fill="#ef233c"/>
+<text x="64" y="56" fill="#24262b" font-size="28" font-weight="700" text-anchor="start">商品检索：召回后再过滤</text>
+<path d="M 480.0 208 L 480.0 264" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<path d="M 480.0 352 L 480.0 408" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<path d="M 480.0 496 L 480.0 552" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<path d="M 480.0 640 L 480.0 696" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<rect x="360" y="120" width="240" height="88" rx="8" fill="#ffffff" stroke="#d3d6dc" stroke-width="1.6"/>
+<text x="480.0" y="156" fill="#24262b" font-size="16" font-weight="600" text-anchor="middle">归一化查询</text>
+<text x="480.0" y="184" fill="#626873" font-size="12" font-weight="500" text-anchor="middle">normalized_query</text>
+<rect x="360" y="264" width="240" height="88" rx="8" fill="#fafafa" stroke="#969ca6" stroke-width="1.6"/>
+<text x="480.0" y="300" fill="#24262b" font-size="16" font-weight="600" text-anchor="middle">向量化 → Qdrant</text>
+<text x="480.0" y="328" fill="#626873" font-size="12" font-weight="500" text-anchor="middle">最多 8 个商品 ID</text>
+<rect x="360" y="408" width="240" height="88" rx="8" fill="#ffffff" stroke="#d3d6dc" stroke-width="1.6"/>
+<text x="480.0" y="444" fill="#24262b" font-size="16" font-weight="600" text-anchor="middle">仓储回查 → 可选精排</text>
+<text x="480.0" y="472" fill="#626873" font-size="12" font-weight="500" text-anchor="middle">ProductRepository / reranker</text>
+<rect x="360" y="552" width="240" height="88" rx="8" fill="#ef233c" stroke="#ef233c" stroke-width="1.6"/>
+<text x="480.0" y="588" fill="white" font-size="16" font-weight="600" text-anchor="middle">配送与价格硬过滤</text>
+<text x="480.0" y="616" fill="#ffffff" font-size="12" font-weight="500" text-anchor="middle">ship_to / price_max_major</text>
+<rect x="360" y="696" width="240" height="88" rx="8" fill="#ffffff" stroke="#d3d6dc" stroke-width="1.6"/>
+<text x="480.0" y="732" fill="#24262b" font-size="16" font-weight="600" text-anchor="middle">Top-K 商品卡</text>
+<text x="480.0" y="760" fill="#626873" font-size="12" font-weight="500" text-anchor="middle">ProductCard</text>
+<line x1="40" y1="800" x2="920" y2="800" stroke="#e5e7eb"/>
+<text x="40" y="832" fill="#626873" font-size="16" font-weight="500" text-anchor="start">GLOBEX  /  源码流程 · 红色强调关键处理，非风险等级</text>
+</svg><p>主路径从问句向量化到商品卡，硬条件是配送与价格。</p><p>库存不参与硬过滤；异常 / 空候选的降级分支见调用链 §4.1。</p></main></body></html>

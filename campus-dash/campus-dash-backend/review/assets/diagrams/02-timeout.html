@@ -1,0 +1,49 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>超时：校验后换人或重新开放</title>
+<style>body{margin:0;background:white;color:#24262b;font-family:"Microsoft YaHei","PingFang SC",sans-serif}main{max-width:1120px;margin:24px auto;padding:0 24px}svg{display:block;width:100%;height:auto}p{font-size:16px;line-height:1.8;color:#626873;margin:16px 40px}@media print{main{margin:0;padding:0}}</style></head><body><main><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 856" role="img" aria-labelledby="02-timeout-title 02-timeout-desc">
+<title id="02-timeout-title">超时：校验后换人或重新开放</title><desc id="02-timeout-desc">MQ和扫描共用同一处理用例，状态与round过滤失效触发，数据库事务决定是否应用。</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#626873"/></marker>
+<marker id="arrow-accent" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#ef233c"/></marker>
+<marker id="arrow-link" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#626873"/></marker>
+<marker id="open" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#626873" stroke-width="1.4"/></marker></defs>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<style>text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}</style>
+<rect x="40" y="32" width="8" height="32" rx="4" fill="#ef233c"/>
+<text x="64" y="56" fill="#24262b" font-size="28" font-weight="700" text-anchor="start">超时：校验后换人或重新开放</text>
+<path d="M 480.0 208 L 480.0 264" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<path d="M 600 308 L 680 308" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<path d="M 480.0 352 L 480.0 408" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<path d="M 360 452 L 168 452 Q 160.0 452 160 460 L 160.0 552" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<path d="M 600 452 L 792 452 Q 800.0 452 800 460 L 800.0 552" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<path d="M 160.0 640 L 160.0 696" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<path d="M 800.0 640 L 800.0 696" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<rect x="616.0" y="272" width="48" height="28" rx="4" fill="white"/><text x="640.0" y="292" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">不符</text>
+<rect x="336.0" y="364.0" width="48" height="28" rx="4" fill="white"/><text x="360.0" y="384.0" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">匹配</text>
+<rect x="244.0" y="416" width="32" height="28" rx="4" fill="white"/><text x="260.0" y="436" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">是</text>
+<rect x="684.0" y="416" width="32" height="28" rx="4" fill="white"/><text x="700.0" y="436" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">否</text>
+<rect x="360" y="120" width="240" height="88" rx="8" fill="#ffffff" stroke="#d3d6dc" stroke-width="1.6"/>
+<text x="480.0" y="156" fill="#24262b" font-size="16" font-weight="600" text-anchor="middle">MQ / DB扫描</text>
+<text x="480.0" y="184" fill="#626873" font-size="12" font-weight="500" text-anchor="middle">errandId + expectedRound</text>
+<path d="M380 264 H580 L600 308.0 L580 352 H380 L360 308.0 Z" fill="#fff1f2" stroke="#ef233c"/>
+<text x="480.0" y="300" fill="#24262b" font-size="16" font-weight="600" text-anchor="middle">任务存在且状态轮次匹配？</text>
+<text x="480.0" y="328" fill="#626873" font-size="12" font-weight="500" text-anchor="middle">LOCKED + round</text>
+<rect x="680" y="264" width="240" height="88" rx="8" fill="#ffffff" stroke="#d3d6dc" stroke-width="1.6"/>
+<text x="800.0" y="300" fill="#24262b" font-size="16" font-weight="600" text-anchor="middle">SKIPPED</text>
+<text x="800.0" y="328" fill="#626873" font-size="12" font-weight="500" text-anchor="middle">不修改任务</text>
+<path d="M380 408 H580 L600 452.0 L580 496 H380 L360 452.0 Z" fill="#fff1f2" stroke="#ef233c"/>
+<text x="480.0" y="444" fill="#24262b" font-size="16" font-weight="600" text-anchor="middle">未达上限且有候选？</text>
+<text x="480.0" y="472" fill="#626873" font-size="12" font-weight="500" text-anchor="middle">累计round / pollBest</text>
+<rect x="40" y="552" width="240" height="88" rx="8" fill="#ef233c" stroke="#ef233c" stroke-width="1.6"/>
+<text x="160.0" y="588" fill="white" font-size="16" font-weight="600" text-anchor="middle">换人事务</text>
+<text x="160.0" y="616" fill="#ffffff" font-size="12" font-weight="500" text-anchor="middle">新grabber、日志、下一轮消息</text>
+<rect x="680" y="552" width="240" height="88" rx="8" fill="#ffffff" stroke="#d3d6dc" stroke-width="1.6"/>
+<text x="800.0" y="588" fill="#24262b" font-size="16" font-weight="600" text-anchor="middle">回退事务</text>
+<text x="800.0" y="616" fill="#626873" font-size="12" font-weight="500" text-anchor="middle">PUBLISHED、清grabber、日志</text>
+<rect x="40" y="696" width="240" height="88" rx="8" fill="#ffffff" stroke="#d3d6dc" stroke-width="1.6"/>
+<text x="160.0" y="732" fill="#24262b" font-size="16" font-weight="600" text-anchor="middle">事务后dispatch</text>
+<text x="160.0" y="760" fill="#626873" font-size="12" font-weight="500" text-anchor="middle">发送下一轮消息</text>
+<rect x="680" y="696" width="240" height="88" rx="8" fill="#ffffff" stroke="#d3d6dc" stroke-width="1.6"/>
+<text x="800.0" y="732" fill="#24262b" font-size="16" font-weight="600" text-anchor="middle">事务后尝试归还名额</text>
+<text x="800.0" y="760" fill="#626873" font-size="12" font-weight="500" text-anchor="middle">信用事件、缓存失效</text>
+<line x1="40" y1="800" x2="920" y2="800" stroke="#e5e7eb"/>
+<text x="40" y="832" fill="#626873" font-size="16" font-weight="500" text-anchor="start">CAMPUSDASH  /  源码流程 · 红色强调关键处理，非风险等级</text>
+</svg><p>MQ和扫描共用同一处理用例，状态与round过滤失效触发，数据库事务决定是否应用。</p><p>归还步骤是一次尝试；换人后的Redis身份不匹配等隐患见同节正文。</p></main></body></html>

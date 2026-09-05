@@ -1,0 +1,35 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>退款：任务状态先于资金事务</title>
+<style>body{margin:0;background:white;color:#24262b;font-family:"Microsoft YaHei","PingFang SC",sans-serif}main{max-width:1120px;margin:24px auto;padding:0 24px}svg{display:block;width:100%;height:auto}p{font-size:16px;line-height:1.8;color:#626873;margin:16px 40px}@media print{main{margin:0;padding:0}}</style></head><body><main><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 672" role="img" aria-labelledby="02-refund-title 02-refund-desc">
+<title id="02-refund-title">退款：任务状态先于资金事务</title><desc id="02-refund-desc">取消或仲裁退款先写任务状态与日志，再通过资金适配器执行退款事务。</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#626873"/></marker>
+<marker id="arrow-accent" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#ef233c"/></marker>
+<marker id="arrow-link" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#626873"/></marker>
+<marker id="open" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#626873" stroke-width="1.4"/></marker></defs>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<style>text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}</style>
+<rect x="40" y="32" width="8" height="32" rx="4" fill="#ef233c"/>
+<text x="64" y="56" fill="#24262b" font-size="28" font-weight="700" text-anchor="start">退款：任务状态先于资金事务</text>
+<line x1="120.0" y1="152" x2="120.0" y2="592" stroke="#d3d6dc" stroke-dasharray="5 7"/>
+<rect x="16.0" y="96" width="208" height="56" rx="8" fill="#fff1f2" stroke="#ef233c"/>
+<text x="120.0" y="132" fill="#24262b" font-size="20" font-weight="500" text-anchor="middle">退款用例</text>
+<line x1="640.0" y1="152" x2="640.0" y2="592" stroke="#d3d6dc" stroke-dasharray="5 7"/>
+<rect x="536.0" y="96" width="208" height="56" rx="8" fill="#fff1f2" stroke="#ef233c"/>
+<text x="640.0" y="132" fill="#24262b" font-size="20" font-weight="500" text-anchor="middle">MySQL</text>
+<line x1="1160.0" y1="152" x2="1160.0" y2="592" stroke="#d3d6dc" stroke-dasharray="5 7"/>
+<rect x="1056.0" y="96" width="208" height="56" rx="8" fill="#fff1f2" stroke="#ef233c"/>
+<text x="1160.0" y="132" fill="#24262b" font-size="20" font-weight="500" text-anchor="middle">资金适配器</text>
+<path d="M 120.0 208 L 640.0 208" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<rect x="264.0" y="172" width="232" height="28" rx="4" fill="white"/><text x="380.0" y="192" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">01  CAS任务终态、写状态日志</text>
+<path d="M 640.0 280 L 120.0 280" fill="none" stroke="#626873" stroke-width="1.6" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="300.0" y="244" width="160" height="28" rx="4" fill="white"/><text x="380.0" y="264" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">02  独立写入已完成</text>
+<path d="M 120.0 352 L 1160.0 352" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<rect x="532.0" y="316" width="216" height="28" rx="4" fill="white"/><text x="640.0" y="336" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">03  半消息 + 退款工作回调</text>
+<path d="M 1160.0 424 L 640.0 424" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<rect x="772.0" y="388" width="256" height="28" rx="4" fill="white"/><text x="900.0" y="408" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">04  退款事务：托管、账户、流水</text>
+<path d="M 640.0 496 L 1160.0 496" fill="none" stroke="#626873" stroke-width="1.6" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="812.0" y="460" width="176" height="28" rx="4" fill="white"/><text x="900.0" y="480" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">05  资金事务提交成功</text>
+<path d="M 1160.0 568 L 120.0 568" fill="none" stroke="#626873" stroke-width="1.6" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="528.0" y="532" width="224" height="28" rx="4" fill="white"/><text x="640.0" y="552" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">06  完成消息提交，返回结果</text>
+<line x1="40" y1="616" x2="1240" y2="616" stroke="#e5e7eb"/>
+<text x="40" y="648" fill="#626873" font-size="16" font-weight="500" text-anchor="start">CAMPUSDASH  /  源码流程 · 红色强调关键处理，非风险等级</text>
+</svg><p>取消或仲裁退款先写任务状态与日志，再通过资金适配器执行退款事务。</p><p>前两步不在资金事务中；后续失败不会自动恢复任务状态或再次退款。</p></main></body></html>

@@ -1,0 +1,29 @@
+%%{init: {"theme": "base", "htmlLabels": false, "themeCSS": "& { background-color: #ffffff !important; color-scheme: light; } .actor-line { stroke: #969ca6 !important; }", "themeVariables": {"background": "#ffffff", "primaryColor": "#fff1f2", "primaryTextColor": "#24262b", "primaryBorderColor": "#ef233c", "secondaryColor": "#ffffff", "tertiaryColor": "#fafafa", "lineColor": "#626873", "textColor": "#24262b", "edgeLabelBackground": "#ffffff", "fontFamily": "Microsoft YaHei, PingFang SC, sans-serif", "fontSize": "16px", "actorBkg": "#ffffff", "actorBorder": "#ef233c", "actorTextColor": "#24262b", "actorLineColor": "#d7d9de", "signalColor": "#626873", "signalTextColor": "#24262b", "labelBoxBkgColor": "#fff1f2", "labelBoxBorderColor": "#fecdd3", "labelTextColor": "#24262b", "loopTextColor": "#24262b", "noteBkgColor": "#fff1f2", "noteBorderColor": "#fecdd3", "noteTextColor": "#24262b", "activationBkgColor": "#fff1f2", "activationBorderColor": "#ef233c", "sequenceNumberColor": "#ffffff"}, "flowchart": {"curve": "linear", "nodeSpacing": 36, "rankSpacing": 48, "htmlLabels": false, "padding": 24}, "sequence": {"useMaxWidth": true, "mirrorActors": false, "wrap": false, "messageMargin": 48, "width": 180, "actorMargin": 60}}}%%
+flowchart TB
+    in["MQ / DB扫描<br/>errandId + expectedRound"]
+    valid{"任务存在且状态轮次匹配？"}
+    skip["SKIPPED<br/>不修改任务"]
+    choose{"未达上限且有候选？"}
+    transfer["换人事务<br/>新grabber、日志、下一轮消息"]
+    revert["回退事务<br/>PUBLISHED、清grabber、日志"]
+    send["事务后dispatch<br/>发送下一轮消息"]
+    post["事务后尝试归还名额<br/>信用事件、缓存失效"]
+    in --> valid
+    valid -->|"不符"| skip
+    valid -->|"匹配"| choose
+    choose -->|"是"| transfer
+    choose -->|"否"| revert
+    transfer --> send
+    revert --> post
+    classDef focal fill:#ef233c,color:#ffffff,stroke:#ef233c,stroke-width:2px
+    classDef quiet fill:#ffffff,color:#24262b,stroke:#d3d6dc
+    classDef decision fill:#fff1f2,color:#24262b,stroke:#ef233c
+    classDef store fill:#fafafa,color:#24262b,stroke:#969ca6
+    class in quiet
+    class valid decision
+    class skip quiet
+    class choose decision
+    class transfer focal
+    class revert quiet
+    class send quiet
+    class post quiet

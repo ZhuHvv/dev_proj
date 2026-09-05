@@ -1,0 +1,28 @@
+%%{init: {"theme": "base", "htmlLabels": false, "themeCSS": "& { background-color: #ffffff !important; color-scheme: light; } .actor-line { stroke: #969ca6 !important; }", "themeVariables": {"background": "#ffffff", "primaryColor": "#fff1f2", "primaryTextColor": "#24262b", "primaryBorderColor": "#ef233c", "secondaryColor": "#ffffff", "tertiaryColor": "#fafafa", "lineColor": "#626873", "textColor": "#24262b", "edgeLabelBackground": "#ffffff", "fontFamily": "Microsoft YaHei, PingFang SC, sans-serif", "fontSize": "16px", "actorBkg": "#ffffff", "actorBorder": "#ef233c", "actorTextColor": "#24262b", "actorLineColor": "#d7d9de", "signalColor": "#626873", "signalTextColor": "#24262b", "labelBoxBkgColor": "#fff1f2", "labelBoxBorderColor": "#fecdd3", "labelTextColor": "#24262b", "loopTextColor": "#24262b", "noteBkgColor": "#fff1f2", "noteBorderColor": "#fecdd3", "noteTextColor": "#24262b", "activationBkgColor": "#fff1f2", "activationBorderColor": "#ef233c", "sequenceNumberColor": "#ffffff"}, "flowchart": {"curve": "linear", "nodeSpacing": 36, "rankSpacing": 48, "htmlLabels": false, "padding": 24}, "sequence": {"useMaxWidth": true, "mirrorActors": false, "wrap": false, "messageMargin": 48, "width": 180, "actorMargin": 60}}}%%
+flowchart TB
+    t["订单工具：转换参数<br/>buyer / items / address"]
+    items{"items 非空？"}
+    work["查商品 → 扣库存 → 建订单<br/>OrderLine / next_order_id / place"]
+    rb["尝试回补 deducted<br/>仅 try 内普通 Exception"]
+    save["保存订单<br/>OrderRepository.save"]
+    done["返回订单快照<br/>Order.snapshot"]
+    err["异常向外传播<br/>转工具 ERROR 或继续抛出"]
+    t --> items
+    items -->|"是"| work
+    items -->|"否：try 外"| err
+    work --> save
+    work -.->|"普通异常"| rb
+    rb -.->|"回补后抛出"| err
+    save --> done
+    save -.->|"失败：不回补"| err
+    classDef focal fill:#ef233c,color:#ffffff,stroke:#ef233c,stroke-width:2px
+    classDef quiet fill:#ffffff,color:#24262b,stroke:#d3d6dc
+    classDef decision fill:#fff1f2,color:#24262b,stroke:#ef233c
+    classDef store fill:#fafafa,color:#24262b,stroke:#969ca6
+    class t quiet
+    class items decision
+    class work focal
+    class rb quiet
+    class save store
+    class done quiet
+    class err quiet

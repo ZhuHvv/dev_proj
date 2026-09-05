@@ -1,0 +1,22 @@
+%%{init: {"theme": "base", "htmlLabels": false, "themeCSS": "& { background-color: #ffffff !important; color-scheme: light; } .actor-line { stroke: #969ca6 !important; }", "themeVariables": {"background": "#ffffff", "primaryColor": "#fff1f2", "primaryTextColor": "#24262b", "primaryBorderColor": "#ef233c", "secondaryColor": "#ffffff", "tertiaryColor": "#fafafa", "lineColor": "#626873", "textColor": "#24262b", "edgeLabelBackground": "#ffffff", "fontFamily": "Microsoft YaHei, PingFang SC, sans-serif", "fontSize": "16px", "actorBkg": "#ffffff", "actorBorder": "#ef233c", "actorTextColor": "#24262b", "actorLineColor": "#d7d9de", "signalColor": "#626873", "signalTextColor": "#24262b", "labelBoxBkgColor": "#fff1f2", "labelBoxBorderColor": "#fecdd3", "labelTextColor": "#24262b", "loopTextColor": "#24262b", "noteBkgColor": "#fff1f2", "noteBorderColor": "#fecdd3", "noteTextColor": "#24262b", "activationBkgColor": "#fff1f2", "activationBorderColor": "#ef233c", "sequenceNumberColor": "#ffffff"}, "flowchart": {"curve": "linear", "nodeSpacing": 36, "rankSpacing": 48, "htmlLabels": false, "padding": 24}, "sequence": {"useMaxWidth": true, "mirrorActors": false, "wrap": false, "messageMargin": 48, "width": 180, "actorMargin": 60}}}%%
+flowchart TB
+    delay["确认超时 / 自动结算<br/>需要到期触发"]
+    fund["结算 / 退款 / 仲裁<br/>资金结果通知"]
+    local["本地消息表<br/>PENDING → SENT / DEAD"]
+    half["MQ 半消息与本地工作<br/>成功后提交消息"]
+    dworker["到期消费 → 业务用例<br/>另有数据库扫描兜底"]
+    fworker["通知落库 / 实时推送<br/>两个消费组"]
+    delay -->|"登记"| local
+    local -.->|"定时发送"| dworker
+    fund --> half
+    half -.->|"提交后可见"| fworker
+    classDef focal fill:#ef233c,color:#ffffff,stroke:#ef233c,stroke-width:2px
+    classDef quiet fill:#ffffff,color:#24262b,stroke:#d3d6dc
+    classDef decision fill:#fff1f2,color:#24262b,stroke:#ef233c
+    classDef store fill:#fafafa,color:#24262b,stroke:#969ca6
+    class delay quiet
+    class fund quiet
+    class local store
+    class half focal
+    class dworker quiet
+    class fworker quiet

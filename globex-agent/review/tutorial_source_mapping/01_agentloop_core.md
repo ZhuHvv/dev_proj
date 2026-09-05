@@ -15,7 +15,7 @@
 
 [HTTP 提交意图](../../app/presentation/server.py#L131) → [Orchestrator 处理一轮请求](../../app/application/agents/orchestrator.py#L140) → [恢复或创建 session Agent](../../app/application/agents/main_agent.py#L171) → [消费 Agent 流式回复](../../app/application/agents/orchestrator.py#L329) → [已注册的搜索/交易工具](../../app/application/agents/main_agent.py#L106) → `ToolChunk` 回到框架循环 → [发布业务事件](../../app/infrastructure/eventbus.py#L107)。
 
-教程里的 Think/Act/Observe（思考/行动/观察）不是仓库中的三个 Python 函数；它们在 AgentScope 的 `ReActAgent` 内部发生。仓库可观察的边界是：输入如何构造、工具如何注册、工具结果怎样回注、流式事件如何转发。
+教程里的 Think/Act/Observe（思考/行动/观察）不是仓库中的三个 Python 函数。本仓实际构造的是 AgentScope 的 `Agent`，传入 `ReActConfig(max_iters=15)` 并消费 `agent.reply_stream()`。框架内部行为仍需核对依赖源码，不能将教程中的类名直接当成本仓符号。
 
 ## 数据、副作用与异常
 

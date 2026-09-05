@@ -16,8 +16,8 @@ MainAgent 在 [main_agent.py](../../app/application/agents/main_agent.py) 中设
 
 - 每次工具结果进入当前 Agent 上下文，可能增加 token 消耗并触发上下文压缩。
 - 业务副作用取决于工具：检索只读，订单和偏好工具会写数据。
-- `max_iters` 是防止失控的上限，不是固定执行次数；循环/重复工具调用还可由 Harness 的 `LoopDetector` 拦截，但实际覆盖范围见 [17-1](17-1_harness_mapping.md)。
+- `max_iters` 是配置的循环上限；Harness 的 LoopDetector 命中后追加收敛提示，不直接停止调用，且受实际中间件接线范围限制，见 [17-1](17-1_harness_mapping.md)。
 
 ## 与教程的差异
 
-本仓没有用示例代码显式实现每轮循环；多轮调度由 AgentScope 完成。要验证真实轮次，应看 `tool.started/tool.completed/token.delta` 事件，而不是仅看最终回复。
+本仓没有用示例代码显式实现每轮循环；多轮调度由 AgentScope 完成。要验证真实轮次，应看 `tool.invoke/tool.result/token.delta` 事件，而不是仅看最终回复。

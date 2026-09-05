@@ -1,0 +1,19 @@
+%%{init: {"theme": "base", "htmlLabels": false, "themeCSS": "& { background-color: #ffffff !important; color-scheme: light; } .actor-line { stroke: #969ca6 !important; }", "themeVariables": {"background": "#ffffff", "primaryColor": "#fff1f2", "primaryTextColor": "#24262b", "primaryBorderColor": "#ef233c", "secondaryColor": "#ffffff", "tertiaryColor": "#fafafa", "lineColor": "#626873", "textColor": "#24262b", "edgeLabelBackground": "#ffffff", "fontFamily": "Microsoft YaHei, PingFang SC, sans-serif", "fontSize": "16px", "actorBkg": "#ffffff", "actorBorder": "#ef233c", "actorTextColor": "#24262b", "actorLineColor": "#d7d9de", "signalColor": "#626873", "signalTextColor": "#24262b", "labelBoxBkgColor": "#fff1f2", "labelBoxBorderColor": "#fecdd3", "labelTextColor": "#24262b", "loopTextColor": "#24262b", "noteBkgColor": "#fff1f2", "noteBorderColor": "#fecdd3", "noteTextColor": "#24262b", "activationBkgColor": "#fff1f2", "activationBorderColor": "#ef233c", "sequenceNumberColor": "#ffffff"}, "flowchart": {"curve": "linear", "nodeSpacing": 36, "rankSpacing": 48, "htmlLabels": false, "padding": 24}, "sequence": {"useMaxWidth": true, "mirrorActors": false, "wrap": false, "messageMargin": 48, "width": 180, "actorMargin": 60}}}%%
+sequenceDiagram
+    autonumber
+    participant A0 as MainAgent
+    participant A1 as task_dispatch
+    participant A2 as 子 Agent
+    participant A3 as 业务工具
+    participant A4 as EventBus
+    A0->>A1: subagent_type + demands
+    A1--)A4: agent.dispatch
+    A1->>A1: Factory.build：独立 AgentState
+    A1->>A1: SearchAgent 可选注入偏好
+    A1->>A2: reply(inputs)
+    A2->>A3: 搜索 / 订单工具
+    A3--)A4: tool.invoke / tool.result
+    A3-->>A2: ToolChunk
+    A2-->>A1: 最终文本
+    A1--)A4: task_dispatch tool.result：耗时
+    A1-->>A0: ToolChunk：子 Agent 最终文本

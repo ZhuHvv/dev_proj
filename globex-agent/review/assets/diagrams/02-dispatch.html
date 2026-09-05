@@ -1,0 +1,51 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>子 Agent：返回文本，旁路发布事件</title>
+<style>body{margin:0;background:white;color:#24262b;font-family:"Microsoft YaHei","PingFang SC",sans-serif}main{max-width:1120px;margin:24px auto;padding:0 24px}svg{display:block;width:100%;height:auto}p{font-size:16px;line-height:1.8;color:#626873;margin:16px 40px}@media print{main{margin:0;padding:0}}</style></head><body><main><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 1032" role="img" aria-labelledby="02-dispatch-title 02-dispatch-desc">
+<title id="02-dispatch-title">子 Agent：返回文本，旁路发布事件</title><desc id="02-dispatch-desc">派发创建独立 AgentState；事件进入 EventBus，不是直接返回给 MainAgent。</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#626873"/></marker>
+<marker id="arrow-accent" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#ef233c"/></marker>
+<marker id="arrow-link" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#626873"/></marker>
+<marker id="open" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#626873" stroke-width="1.4"/></marker></defs>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<style>text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}</style>
+<rect x="40" y="32" width="8" height="32" rx="4" fill="#ef233c"/>
+<text x="64" y="56" fill="#24262b" font-size="28" font-weight="700" text-anchor="start">子 Agent：返回文本，旁路发布事件</text>
+<line x1="120.0" y1="152" x2="120.0" y2="952" stroke="#d3d6dc" stroke-dasharray="5 7"/>
+<rect x="16.0" y="96" width="208" height="56" rx="8" fill="#fff1f2" stroke="#ef233c"/>
+<text x="120.0" y="132" fill="#24262b" font-size="20" font-weight="500" text-anchor="middle">MainAgent</text>
+<line x1="380.0" y1="152" x2="380.0" y2="952" stroke="#d3d6dc" stroke-dasharray="5 7"/>
+<rect x="276.0" y="96" width="208" height="56" rx="8" fill="#fff1f2" stroke="#ef233c"/>
+<text x="380.0" y="132" fill="#24262b" font-size="20" font-weight="500" text-anchor="middle">task_dispatch</text>
+<line x1="640.0" y1="152" x2="640.0" y2="952" stroke="#d3d6dc" stroke-dasharray="5 7"/>
+<rect x="536.0" y="96" width="208" height="56" rx="8" fill="#fff1f2" stroke="#ef233c"/>
+<text x="640.0" y="132" fill="#24262b" font-size="20" font-weight="500" text-anchor="middle">子 Agent</text>
+<line x1="900.0" y1="152" x2="900.0" y2="952" stroke="#d3d6dc" stroke-dasharray="5 7"/>
+<rect x="796.0" y="96" width="208" height="56" rx="8" fill="#fff1f2" stroke="#ef233c"/>
+<text x="900.0" y="132" fill="#24262b" font-size="20" font-weight="500" text-anchor="middle">业务工具</text>
+<line x1="1160.0" y1="152" x2="1160.0" y2="952" stroke="#d3d6dc" stroke-dasharray="5 7"/>
+<rect x="1056.0" y="96" width="208" height="56" rx="8" fill="#fff1f2" stroke="#ef233c"/>
+<text x="1160.0" y="132" fill="#24262b" font-size="20" font-weight="500" text-anchor="middle">EventBus</text>
+<path d="M 120.0 208 L 380.0 208" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<rect x="134.0" y="172" width="232" height="28" rx="4" fill="white"/><text x="250.0" y="192" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">01  subagent_type + demands</text>
+<path d="M 380.0 280 L 1160.0 280" fill="none" stroke="#626873" stroke-width="1.6" stroke-dasharray="6 5" marker-end="url(#open)"/>
+<rect x="690.0" y="244" width="160" height="28" rx="4" fill="white"/><text x="770.0" y="264" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">02  agent.dispatch</text>
+<path d="M 380.0 352 L 444 352 Q 452.0 352 452 360 L 452 368 Q 452.0 376 444 376 L 380.0 376" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<text x="468.0" y="340" fill="#626873" font-size="16" font-weight="500" text-anchor="start">03  Factory.build：独立 AgentState</text>
+<path d="M 380.0 424 L 444 424 Q 452.0 424 452 432 L 452 440 Q 452.0 448 444 448 L 380.0 448" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<text x="468.0" y="412" fill="#626873" font-size="16" font-weight="500" text-anchor="start">04  SearchAgent 可选注入偏好</text>
+<path d="M 380.0 496 L 640.0 496" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<rect x="434.0" y="460" width="152" height="28" rx="4" fill="white"/><text x="510.0" y="480" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">05  reply(inputs)</text>
+<path d="M 640.0 568 L 900.0 568" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<rect x="686.0" y="532" width="168" height="28" rx="4" fill="white"/><text x="770.0" y="552" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">06  搜索 / 订单工具</text>
+<path d="M 900.0 640 L 1160.0 640" fill="none" stroke="#626873" stroke-width="1.6" stroke-dasharray="6 5" marker-end="url(#open)"/>
+<rect x="906.0" y="604" width="248" height="28" rx="4" fill="white"/><text x="1030.0" y="624" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">07  tool.invoke / tool.result</text>
+<path d="M 900.0 712 L 640.0 712" fill="none" stroke="#626873" stroke-width="1.6" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="710.0" y="676" width="120" height="28" rx="4" fill="white"/><text x="770.0" y="696" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">08  ToolChunk</text>
+<path d="M 640.0 784 L 380.0 784" fill="none" stroke="#626873" stroke-width="1.6" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="454.0" y="748" width="112" height="28" rx="4" fill="white"/><text x="510.0" y="768" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">09  最终文本</text>
+<path d="M 380.0 856 L 1160.0 856" fill="none" stroke="#626873" stroke-width="1.6" stroke-dasharray="6 5" marker-end="url(#open)"/>
+<rect x="622.0" y="820" width="296" height="28" rx="4" fill="white"/><text x="770.0" y="840" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">10  task_dispatch tool.result：耗时</text>
+<path d="M 380.0 928 L 120.0 928" fill="none" stroke="#626873" stroke-width="1.6" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="114.0" y="892" width="272" height="28" rx="4" fill="white"/><text x="250.0" y="912" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">11  ToolChunk：子 Agent 最终文本</text>
+<line x1="40" y1="976" x2="1240" y2="976" stroke="#e5e7eb"/>
+<text x="40" y="1008" fill="#626873" font-size="16" font-weight="500" text-anchor="start">GLOBEX  /  源码流程 · 红色强调关键处理，非风险等级</text>
+</svg><p>派发创建独立 AgentState；事件进入 EventBus，不是直接返回给 MainAgent。</p><p>可选偏好步骤由 PREFERENCE_SUBAGENT_INJECT 等条件控制；子 Agent 不继承主历史。</p></main></body></html>

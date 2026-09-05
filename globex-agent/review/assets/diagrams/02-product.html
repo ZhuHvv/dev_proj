@@ -1,0 +1,44 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>商品检索：正常路径与降级</title>
+<style>body{margin:0;background:white;color:#24262b;font-family:"Microsoft YaHei","PingFang SC",sans-serif}main{max-width:1120px;margin:24px auto;padding:0 24px}svg{display:block;width:100%;height:auto}p{font-size:16px;line-height:1.8;color:#626873;margin:16px 40px}@media print{main{margin:0;padding:0}}</style></head><body><main><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 1000" role="img" aria-labelledby="02-product-title 02-product-desc">
+<title id="02-product-title">商品检索：正常路径与降级</title><desc id="02-product-desc">工具先经过韧性中间件，再转换参数；关键词降级发生在硬过滤之前。</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#626873"/></marker>
+<marker id="arrow-accent" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#ef233c"/></marker>
+<marker id="arrow-link" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#626873"/></marker>
+<marker id="open" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#626873" stroke-width="1.4"/></marker></defs>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<style>text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}</style>
+<rect x="40" y="32" width="8" height="32" rx="4" fill="#ef233c"/>
+<text x="64" y="56" fill="#24262b" font-size="28" font-weight="700" text-anchor="start">商品检索：正常路径与降级</text>
+<path d="M 480.0 208 L 480.0 264" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<path d="M 480.0 352 L 480.0 408" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<path d="M 360 452 L 168 452 Q 160.0 452 160 460 L 160.0 552" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<path d="M 600 452 L 792 452 Q 800.0 452 800 460 L 800.0 552" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<path d="M 280 596 L 448 596 Q 456.0 596 456 604 L 456.0 696" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<path d="M 680 596 L 512 596 Q 504.0 596 504 604 L 504.0 696" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<path d="M 480.0 784 L 480.0 840" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<rect x="200.0" y="416" width="120" height="28" rx="4" fill="white"/><text x="260.0" y="436" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">否 / 捕获异常</text>
+<rect x="684.0" y="416" width="32" height="28" rx="4" fill="white"/><text x="700.0" y="436" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">是</text>
+<rect x="360" y="120" width="240" height="88" rx="8" fill="#ffffff" stroke="#d3d6dc" stroke-width="1.6"/>
+<text x="480.0" y="156" fill="#24262b" font-size="16" font-weight="600" text-anchor="middle">Agent → 韧性中间件</text>
+<text x="480.0" y="184" fill="#626873" font-size="12" font-weight="500" text-anchor="middle">ToolResilienceMiddleware</text>
+<rect x="360" y="264" width="240" height="88" rx="8" fill="#ffffff" stroke="#d3d6dc" stroke-width="1.6"/>
+<text x="480.0" y="300" fill="#24262b" font-size="16" font-weight="600" text-anchor="middle">商品工具：转换参数</text>
+<text x="480.0" y="328" fill="#626873" font-size="12" font-weight="500" text-anchor="middle">ProductSearchSpec</text>
+<path d="M380 408 H580 L600 452.0 L580 496 H380 L360 452.0 Z" fill="#fff1f2" stroke="#ef233c"/>
+<text x="480.0" y="444" fill="#24262b" font-size="16" font-weight="600" text-anchor="middle">向量候选非空？</text>
+<text x="480.0" y="472" fill="#626873" font-size="12" font-weight="500" text-anchor="middle">embed → Qdrant → 仓储回查</text>
+<rect x="40" y="552" width="240" height="88" rx="8" fill="#ffffff" stroke="#d3d6dc" stroke-width="1.6"/>
+<text x="160.0" y="588" fill="#24262b" font-size="16" font-weight="600" text-anchor="middle">关键词召回</text>
+<text x="160.0" y="616" fill="#626873" font-size="12" font-weight="500" text-anchor="middle">keyword_2gram</text>
+<rect x="680" y="552" width="240" height="88" rx="8" fill="#ffffff" stroke="#d3d6dc" stroke-width="1.6"/>
+<text x="800.0" y="588" fill="#24262b" font-size="16" font-weight="600" text-anchor="middle">尝试可选精排</text>
+<text x="800.0" y="616" fill="#626873" font-size="12" font-weight="500" text-anchor="middle">成功：精排分；否则：向量分</text>
+<rect x="360" y="696" width="240" height="88" rx="8" fill="#ef233c" stroke="#ef233c" stroke-width="1.6"/>
+<text x="480.0" y="732" fill="white" font-size="16" font-weight="600" text-anchor="middle">配送 / 价格过滤 → Top-K</text>
+<text x="480.0" y="760" fill="#ffffff" font-size="12" font-weight="500" text-anchor="middle">不按库存过滤</text>
+<rect x="360" y="840" width="240" height="88" rx="8" fill="#ffffff" stroke="#d3d6dc" stroke-width="1.6"/>
+<text x="480.0" y="876" fill="#24262b" font-size="16" font-weight="600" text-anchor="middle">组装商品卡并返回</text>
+<text x="480.0" y="904" fill="#626873" font-size="12" font-weight="500" text-anchor="middle">tool.result + ToolChunk JSON</text>
+<line x1="40" y1="944" x2="920" y2="944" stroke="#e5e7eb"/>
+<text x="40" y="976" fill="#626873" font-size="16" font-weight="500" text-anchor="start">GLOBEX  /  源码流程 · 红色强调关键处理，非风险等级</text>
+</svg><p>工具先经过韧性中间件，再转换参数；关键词降级发生在硬过滤之前。</p><p>外层超时不保证完成降级；过滤后零命中不会重新召回。</p></main></body></html>

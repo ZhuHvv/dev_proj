@@ -8,7 +8,7 @@
 
 ## 真实协同链
 
-[MainAgent 工具集](../../app/application/agents/main_agent.py#L106) 拆解复杂意图 → `TaskCreate/TaskUpdate` 记录计划 → [task_dispatch(agent, task)](../../app/application/tools/task_dispatch_tool.py#L73) → [按次创建 SearchAgent](../../app/application/agents/search_agent.py#L84) / [TradeAgent](../../app/application/agents/trade_agent.py#L79) → 子 Agent 调业务工具并返回总结 → MainAgent 更新 Task/合并答案 → [Orchestrator 推送最终流](../../app/application/agents/orchestrator.py#L329)。
+[MainAgent 工具集](../../app/application/agents/main_agent.py#L106) 拆解复杂意图 → `TaskCreate/TaskUpdate` 记录计划 → [task_dispatch(subagent_type, demands)](../../app/application/tools/task_dispatch_tool.py#L73) → [按次创建 SearchAgent](../../app/application/agents/search_agent.py#L84) / [TradeAgent](../../app/application/agents/trade_agent.py#L79) → 子 Agent 调业务工具并返回总结 → MainAgent 更新 Task/合并答案 → [Orchestrator 推送最终流](../../app/application/agents/orchestrator.py#L329)。
 
 ## 状态与副作用
 

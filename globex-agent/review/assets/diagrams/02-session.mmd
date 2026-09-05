@@ -1,0 +1,30 @@
+%%{init: {"theme": "base", "htmlLabels": false, "themeCSS": "& { background-color: #ffffff !important; color-scheme: light; } .actor-line { stroke: #969ca6 !important; }", "themeVariables": {"background": "#ffffff", "primaryColor": "#fff1f2", "primaryTextColor": "#24262b", "primaryBorderColor": "#ef233c", "secondaryColor": "#ffffff", "tertiaryColor": "#fafafa", "lineColor": "#626873", "textColor": "#24262b", "edgeLabelBackground": "#ffffff", "fontFamily": "Microsoft YaHei, PingFang SC, sans-serif", "fontSize": "16px", "actorBkg": "#ffffff", "actorBorder": "#ef233c", "actorTextColor": "#24262b", "actorLineColor": "#d7d9de", "signalColor": "#626873", "signalTextColor": "#24262b", "labelBoxBkgColor": "#fff1f2", "labelBoxBorderColor": "#fecdd3", "labelTextColor": "#24262b", "loopTextColor": "#24262b", "noteBkgColor": "#fff1f2", "noteBorderColor": "#fecdd3", "noteTextColor": "#24262b", "activationBkgColor": "#fff1f2", "activationBorderColor": "#ef233c", "sequenceNumberColor": "#ffffff"}, "flowchart": {"curve": "linear", "nodeSpacing": 36, "rankSpacing": 48, "htmlLabels": false, "padding": 24}, "sequence": {"useMaxWidth": true, "mirrorActors": false, "wrap": false, "messageMargin": 48, "width": 180, "actorMargin": 60}}}%%
+flowchart TB
+    start["get_or_create<br/>按 shopping_session_id 查找"]
+    cache{"进程内有 Agent？"}
+    reuse["直接返回已有 Agent<br/>不重新读取 Store"]
+    load["读取并解析状态<br/>SessionStore.load"]
+    valid{"可恢复？"}
+    state["使用已恢复状态<br/>restored_state"]
+    fresh["使用新状态<br/>restored_state = None"]
+    build["构建、缓存并返回<br/>MainAgentFactory.build"]
+    start --> cache
+    cache -->|"是"| reuse
+    cache -->|"否"| load
+    load --> valid
+    valid -->|"是"| state
+    valid -->|"否"| fresh
+    state --> build
+    fresh --> build
+    classDef focal fill:#ef233c,color:#ffffff,stroke:#ef233c,stroke-width:2px
+    classDef quiet fill:#ffffff,color:#24262b,stroke:#d3d6dc
+    classDef decision fill:#fff1f2,color:#24262b,stroke:#ef233c
+    classDef store fill:#fafafa,color:#24262b,stroke:#969ca6
+    class start quiet
+    class cache decision
+    class reuse focal
+    class load store
+    class valid decision
+    class state quiet
+    class fresh quiet
+    class build quiet

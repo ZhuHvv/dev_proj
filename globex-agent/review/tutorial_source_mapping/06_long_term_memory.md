@@ -8,7 +8,7 @@
 
 ## 真实调用链
 
-写入：用户明确表达长期偏好 → [remember_preference 工具](../../app/application/tools/remember_preference_tool.py#L22) → `PreferenceStore.upsert` → `ToolChunk`。
+写入：[remember_preference_tool](D:/codes/dev_proj/globex-agent/app/application/tools/remember_preference_tool.py:22) → 从 ShoppingContext 取得 buyer_id → `store.append(BuyerPreference(...))` → 发布 tool.result → 返回 ToolChunk。是否属于稳定偏好由模型依据说明判断，函数内没有独立确认校验；它捕获 ValueError，其他异常需要由调用层处理。
 
 读取：[Orchestrator._build_inputs](../../app/application/agents/orchestrator.py#L411) → [PreferenceSelector.select](../../app/application/memory/preference_selector.py#L70) → `<buyer-preferences>` 注入 MainAgent；派发 SearchAgent 时，[task_dispatch](../../app/application/tools/task_dispatch_tool.py#L73) 再由服务端拼入相关偏好，避免仅依赖主 Agent 转述。
 
@@ -20,4 +20,4 @@
 
 ## 与教程的差异
 
-这是结构化、显式授权的偏好记忆，不是让模型自动总结所有对话并永久保存。当前没有记忆自进化、冲突自动消解或向量记忆库。
+这是结构化偏好存储。稳定偏好与临时要求的区分写在工具说明中，由模型判断；不能称为已经实现服务端显式授权的记忆写入流程。

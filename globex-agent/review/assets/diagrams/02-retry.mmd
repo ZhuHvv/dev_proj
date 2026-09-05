@@ -1,0 +1,28 @@
+%%{init: {"theme": "base", "htmlLabels": false, "themeCSS": "& { background-color: #ffffff !important; color-scheme: light; } .actor-line { stroke: #969ca6 !important; }", "themeVariables": {"background": "#ffffff", "primaryColor": "#fff1f2", "primaryTextColor": "#24262b", "primaryBorderColor": "#ef233c", "secondaryColor": "#ffffff", "tertiaryColor": "#fafafa", "lineColor": "#626873", "textColor": "#24262b", "edgeLabelBackground": "#ffffff", "fontFamily": "Microsoft YaHei, PingFang SC, sans-serif", "fontSize": "16px", "actorBkg": "#ffffff", "actorBorder": "#ef233c", "actorTextColor": "#24262b", "actorLineColor": "#d7d9de", "signalColor": "#626873", "signalTextColor": "#24262b", "labelBoxBkgColor": "#fff1f2", "labelBoxBorderColor": "#fecdd3", "labelTextColor": "#24262b", "loopTextColor": "#24262b", "noteBkgColor": "#fff1f2", "noteBorderColor": "#fecdd3", "noteTextColor": "#24262b", "activationBkgColor": "#fff1f2", "activationBorderColor": "#ef233c", "sequenceNumberColor": "#ffffff"}, "flowchart": {"curve": "linear", "nodeSpacing": 36, "rankSpacing": 48, "htmlLabels": false, "padding": 24}, "sequence": {"useMaxWidth": true, "mirrorActors": false, "wrap": false, "messageMargin": 48, "width": 180, "actorMargin": 60}}}%%
+flowchart TB
+    model["模型调用与建流<br/>含模型层重试及可选备用"]
+    stream["消费 reply_stream<br/>工具执行 / 文本事件"]
+    ok["流耗尽：继续收尾<br/>返回当前 final_text"]
+    err["异常逃出<br/>建流失败或消费失败"]
+    test{"瞬时错误且可重试？"}
+    retry["保留状态，inputs = []<br/>退避后重新进入 reply loop"]
+    fail["发布 error，返回 [error]<br/>该异常分支不发 final.result"]
+    model -->|"建流成功"| stream
+    stream -->|"未抛异常"| ok
+    model -.->|"建流失败"| err
+    stream -.->|"消费失败"| err
+    err --> test
+    test -->|"是"| retry
+    test -->|"否"| fail
+    retry -.->|"重新尝试"| model
+    classDef focal fill:#ef233c,color:#ffffff,stroke:#ef233c,stroke-width:2px
+    classDef quiet fill:#ffffff,color:#24262b,stroke:#d3d6dc
+    classDef decision fill:#fff1f2,color:#24262b,stroke:#ef233c
+    classDef store fill:#fafafa,color:#24262b,stroke:#969ca6
+    class model focal
+    class stream quiet
+    class ok quiet
+    class err quiet
+    class test decision
+    class retry quiet
+    class fail quiet

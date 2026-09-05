@@ -1,0 +1,50 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>两层重试：建流与整段消费</title>
+<style>body{margin:0;background:white;color:#24262b;font-family:"Microsoft YaHei","PingFang SC",sans-serif}main{max-width:1120px;margin:24px auto;padding:0 24px}svg{display:block;width:100%;height:auto}p{font-size:16px;line-height:1.8;color:#626873;margin:16px 40px}@media print{main{margin:0;padding:0}}</style></head><body><main><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 800" role="img" aria-labelledby="02-retry-title 02-retry-desc">
+<title id="02-retry-title">两层重试：建流与整段消费</title><desc id="02-retry-desc">模型包装器处理建流前瞬时错误；外层还处理流消费时逃出的瞬时错误。</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#626873"/></marker>
+<marker id="arrow-accent" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#ef233c"/></marker>
+<marker id="arrow-link" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#626873"/></marker>
+<marker id="open" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#626873" stroke-width="1.4"/></marker></defs>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<style>text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}</style>
+<rect x="40" y="32" width="8" height="32" rx="4" fill="#ef233c"/>
+<text x="64" y="56" fill="#24262b" font-size="28" font-weight="700" text-anchor="start">两层重试：建流与整段消费</text>
+<path d="M 480.0 208 L 480.0 264" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<path d="M 480.0 352 L 480.0 408" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<path d="M 600 164 L 792 164 Q 800.0 164 800 172 L 800.0 264" fill="none" stroke="#626873" stroke-width="1.6" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<path d="M 600 308 L 680 308" fill="none" stroke="#626873" stroke-width="1.6" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<path d="M 800.0 352 L 800.0 408" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<path d="M 800.0 496 L 800.0 552" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<path d="M 680 452 L 656 452 Q 648 452 648 460 L 648 588 Q 648 596 640 596 L 280 596" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<path d="M 800 640 L 928 640 Q 936 640 936 632 L 936 96 Q 936 88 928 88 L 488 88 Q 480 88 480 96 L 480 120" fill="none" stroke="#626873" stroke-width="1.6" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="320.0" y="220.0" width="80" height="28" rx="4" fill="white"/><text x="360.0" y="240.0" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">建流成功</text>
+<rect x="320.0" y="364.0" width="80" height="28" rx="4" fill="white"/><text x="360.0" y="384.0" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">未抛异常</text>
+<rect x="660.0" y="128" width="80" height="28" rx="4" fill="white"/><text x="700.0" y="148" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">建流失败</text>
+<rect x="600.0" y="272" width="80" height="28" rx="4" fill="white"/><text x="640.0" y="292" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">消费失败</text>
+<rect x="664.0" y="508.0" width="32" height="28" rx="4" fill="white"/><text x="680.0" y="528.0" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">是</text>
+<rect x="520.0" y="560" width="32" height="28" rx="4" fill="white"/><text x="536" y="580" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">否</text>
+<rect x="720.0" y="52" width="80" height="28" rx="4" fill="white"/><text x="760" y="72" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">重新尝试</text>
+<rect x="360" y="120" width="240" height="88" rx="8" fill="#ef233c" stroke="#ef233c" stroke-width="1.6"/>
+<text x="480.0" y="156" fill="white" font-size="16" font-weight="600" text-anchor="middle">模型调用与建流</text>
+<text x="480.0" y="184" fill="#ffffff" font-size="12" font-weight="500" text-anchor="middle">含模型层重试及可选备用</text>
+<rect x="360" y="264" width="240" height="88" rx="8" fill="#ffffff" stroke="#d3d6dc" stroke-width="1.6"/>
+<text x="480.0" y="300" fill="#24262b" font-size="16" font-weight="600" text-anchor="middle">消费 reply_stream</text>
+<text x="480.0" y="328" fill="#626873" font-size="12" font-weight="500" text-anchor="middle">工具执行 / 文本事件</text>
+<rect x="360" y="408" width="240" height="88" rx="8" fill="#ffffff" stroke="#d3d6dc" stroke-width="1.6"/>
+<text x="480.0" y="444" fill="#24262b" font-size="16" font-weight="600" text-anchor="middle">流耗尽：继续收尾</text>
+<text x="480.0" y="472" fill="#626873" font-size="12" font-weight="500" text-anchor="middle">返回当前 final_text</text>
+<rect x="680" y="264" width="240" height="88" rx="8" fill="#ffffff" stroke="#d3d6dc" stroke-width="1.6"/>
+<text x="800.0" y="300" fill="#24262b" font-size="16" font-weight="600" text-anchor="middle">异常逃出</text>
+<text x="800.0" y="328" fill="#626873" font-size="12" font-weight="500" text-anchor="middle">建流失败或消费失败</text>
+<path d="M700 408 H900 L920 452.0 L900 496 H700 L680 452.0 Z" fill="#fff1f2" stroke="#ef233c"/>
+<text x="800.0" y="444" fill="#24262b" font-size="16" font-weight="600" text-anchor="middle">瞬时错误且可重试？</text>
+<text x="800.0" y="472" fill="#626873" font-size="12" font-weight="500" text-anchor="middle">Orchestrator 最多重进 2 次</text>
+<rect x="680" y="552" width="240" height="88" rx="8" fill="#ffffff" stroke="#d3d6dc" stroke-width="1.6"/>
+<text x="800.0" y="588" fill="#24262b" font-size="16" font-weight="600" text-anchor="middle">保留状态，inputs = []</text>
+<text x="800.0" y="616" fill="#626873" font-size="12" font-weight="500" text-anchor="middle">退避后重新进入 reply loop</text>
+<rect x="40" y="552" width="240" height="88" rx="8" fill="#ffffff" stroke="#d3d6dc" stroke-width="1.6"/>
+<text x="160.0" y="588" fill="#24262b" font-size="16" font-weight="600" text-anchor="middle">发布 error，返回 [error]</text>
+<text x="160.0" y="616" fill="#626873" font-size="12" font-weight="500" text-anchor="middle">该异常分支不发 final.result</text>
+<line x1="40" y1="744" x2="920" y2="744" stroke="#e5e7eb"/>
+<text x="40" y="776" fill="#626873" font-size="16" font-weight="500" text-anchor="start">GLOBEX  /  源码流程 · 红色强调关键处理，非风险等级</text>
+</svg><p>模型包装器处理建流前瞬时错误；外层还处理流消费时逃出的瞬时错误。</p><p>模型层仅重试建流前瞬时错误：最多 LLM_MAX_RETRIES + 1 次；不回滚工具副作用。</p></main></body></html>

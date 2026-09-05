@@ -8,7 +8,7 @@
 
 ## 真实链路
 
-[FastAPI 请求入口](../../app/presentation/server.py#L131) / [worker 入口](../../app/worker.py#L33) → [Orchestrator 请求上下文](../../app/application/agents/orchestrator.py#L140) → [LLM 上游调用](../../app/infrastructure/llm.py#L94) / 工具外部调用 → [业务事件发布](../../app/infrastructure/eventbus.py#L107) → [Agent middleware 的 OTLP 配置](../../app/infrastructure/tracing.py#L50)。同时，`tool.started/completed`、派发、压缩、最终结果等事件可按 session 重建用户可见轨迹。
+观测配置：[setup_tracing](D:/codes/dev_proj/globex-agent/app/infrastructure/tracing.py:30) 初始化 OTLP exporter；[build_agent_middlewares](D:/codes/dev_proj/globex-agent/app/infrastructure/tracing.py:50) 给 Agent 添加 TracingMiddleware。业务事件另走 EventBus → WebSocket/对话事件存储。这是两套机制，EventBus.publish 并不调用 OTLP exporter；本次读取的 server/orchestrator 中没有证明 HTTP、队列和所有外部调用已自动形成完整父子 span。
 
 ## 数据与隐私
 

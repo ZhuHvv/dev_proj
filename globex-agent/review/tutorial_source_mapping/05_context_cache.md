@@ -12,7 +12,7 @@
 
 ## 真实链路
 
-[Orchestrator 构造本轮输入](../../app/application/agents/orchestrator.py#L411) → [语义缓存 lookup](../../app/infrastructure/cache/semantic_cache.py#L124) → 未命中才进入 [Agent 流式回复](../../app/application/agents/orchestrator.py#L329)；AgentScope 使用 [Context 配置](../../app/application/agents/context_policy.py#L52) 在窗口约 0.75 处压缩并保留尾部约 0.15；轮末发布 `context.compressed`，成功的可缓存首轮答复再 [写入 Redis 缓存](../../app/infrastructure/cache/semantic_cache.py#L150)。
+[handle_intent](D:/codes/dev_proj/globex-agent/app/application/agents/orchestrator.py:140) → 恢复 Agent 并判断 has_history → [_lookup_cache](D:/codes/dev_proj/globex-agent/app/application/agents/orchestrator.py:215)。命中时审核缓存答复、发布 final.result 并返回；未命中才调用 [_build_inputs](D:/codes/dev_proj/globex-agent/app/application/agents/orchestrator.py:411) → _reply_with_retry → 最终审核 → 漂移检查 → 压缩事件 → final.result → _remember_cache。两条分支都会进入 finally 保存状态。上下文压缩由 AgentScope 使用 context_config 执行，本仓在轮末比较 summary。
 
 ## 数据、失效与失败
 

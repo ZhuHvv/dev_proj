@@ -8,13 +8,13 @@
 
 ## 生命周期
 
-模型产生 ToolCall → [Harness middleware](../../app/infrastructure/harness_middleware.py#L43) 外层 before → [schema/sequencing 断言](../../app/application/harness/assertions.py#L63) / [loop 检测](../../app/application/harness/loop_detector.py#L66) → [resilience allow/timeout/retry](../../app/infrastructure/resilience.py#L97) → Python 工具函数 → UseCase/外部依赖 → resilience 记账 → Harness after 检查 → `ToolChunk` → 模型。
+对实际挂载 Harness 的工具：[on_tool_call](D:/codes/dev_proj/globex-agent/app/infrastructure/harness_middleware.py:66) → SequencingTracker.check（可拒绝执行）→ LoopDetector.check（追加收敛提示）→ sequencing.record → next_handler 执行工具 → 收集 chunks → 对最后一个 chunk 执行 check_schema → sanitize_tool_output → 重建 ToolChunk。Schema 检查发生在执行后，检查返回结构；循环检测只追加提示，不直接中止工具调用。
 
 中间件是洋葱结构：外层先进入、后退出。注册顺序会决定 Harness 看到的是原始异常、重试后的结果还是已经转成 `[error]` 的 ToolChunk。
 
 ## 数据与副作用
 
-before 阶段应在写操作前阻断非法参数/顺序；after 阶段可验证结果 schema 和语义。超时不代表下游一定没有完成，订单工具仍需幂等键或事务边界。
+当前 before 阶段执行顺序检查和循环提示；after 阶段检查结果 schema 并过滤内容。语义正确性验证尚不能视为已接入。
 
 ## 与教程的差异
 

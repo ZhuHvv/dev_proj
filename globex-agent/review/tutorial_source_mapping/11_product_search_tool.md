@@ -4,7 +4,7 @@
 
 ## 工具与路由是两层
 
-[product_search_tool.py](../../app/application/tools/product_search_tool.py) 把模型参数适配为 `CatalogSearchQuery`；[catalog_search.py](../../app/application/usecases/catalog_search.py) 执行确定性检索；[task_dispatch_tool.py](../../app/application/tools/task_dispatch_tool.py) 负责把复杂搜索任务派给 SearchAgent。
+[product_search_tool.py](../../app/application/tools/product_search_tool.py) 把模型参数适配为 `ProductSearchSpec`；[catalog_search.py](../../app/application/usecases/catalog_search.py) 执行确定性检索；[task_dispatch_tool.py](../../app/application/tools/task_dispatch_tool.py) 负责把复杂搜索任务派给 SearchAgent。
 
 ## 真实调用链
 
@@ -12,11 +12,11 @@
 
 派发模式：[MainAgent](../../app/application/agents/main_agent.py#L106) → `TaskCreate` → [task_dispatch(search)](../../app/application/tools/task_dispatch_tool.py#L73) → [SearchAgent](../../app/application/agents/search_agent.py#L84) → [product_search](../../app/application/tools/product_search_tool.py#L23) → [CatalogSearchUseCase.execute](../../app/application/usecases/catalog_search.py#L104) → 子 Agent 总结 → MainAgent。
 
-UseCase 内部继续走：`query 规范化 → 偏好/条件 → vector → optional rerank → keyword fallback → 商品实体补全 → 价格库存过滤 → 到手价卡片`。
+UseCase 内部：[execute](D:/codes/dev_proj/globex-agent/app/application/usecases/catalog_search.py:104) → [_vector_recall](D:/codes/dev_proj/globex-agent/app/application/usecases/catalog_search.py:179)：Embedding → 向量 id → 商品实体补全 → [_rerank](D:/codes/dev_proj/globex-agent/app/application/usecases/catalog_search.py:192)。向量失败、未配置或没有候选才走 _keyword_recall；精排失败保留向量候选。随后按 ship_to 和主 SKU 标价上限过滤 → top_k 截断 → _to_card。这里没有库存硬过滤，也没有在 UseCase 内读取长期偏好。
 
 ## 数据、副作用与失败
 
-商品搜索本身只读，但会产生外部 Embedding/Qdrant/Reranker 调用和过程事件。向量或精排失败时逐级降级，工具结果应携带实际 `search_strategy`，以便评测识别静默退化。
+商品搜索结果包含 `recall_strategy` 和 `rerank_applied`。精排失败退为 embedding_only；向量异常或无候选退为 keyword_2gram。商品实体在精排前补全，不能把所有分支写成必经步骤。
 
 ## 与教程的差异
 

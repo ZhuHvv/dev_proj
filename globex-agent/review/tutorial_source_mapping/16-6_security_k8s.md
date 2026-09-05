@@ -4,11 +4,11 @@
 
 ## 已有安全层
 
-[content_filter.py](../../app/infrastructure/security/content_filter.py) 提供输入/内容规则过滤；[output_guard.py](../../app/infrastructure/security/output_guard.py) 在最终回复前执行输出审核；[permissions.py](../../app/application/agents/permissions.py) 限定 AgentScope 工具权限。
+[sanitize_tool_output](D:/codes/dev_proj/globex-agent/app/infrastructure/security/content_filter.py:35) 清理的是工具返回文本，由 Harness 后置处理调用；[audit_output](D:/codes/dev_proj/globex-agent/app/infrastructure/security/output_guard.py:50) 审核最终答复；permissions.py 设置工具 allow 规则。不能把工具结果过滤写成用户输入过滤。
 
 ## 真实链路
 
-用户输入 → [presentation `submit_intent`](../../app/presentation/server.py#L131) / [Orchestrator](../../app/application/agents/orchestrator.py#L140) 安全检查 → [Agent/工具权限](../../app/application/agents/permissions.py#L32) → [订单 UseCase 领域校验](../../app/application/usecases/order_usecases.py#L29) → [最终文本 L4 output audit](../../app/infrastructure/security/output_guard.py#L50) → [final.result 事件](../../app/infrastructure/eventbus.py#L107)。安全不能只靠 Prompt；库存、订单状态和参数合法性仍由领域层校验。
+当前可核实的路径：submit_intent → handle_intent → Agent/工具调用 → 最终文本 _guard_final_text → final.result。读取的入口代码未找到统一用户输入安全过滤。L3 只作用于实际挂 Harness 的工具；L4 在回复完成后执行，而 token.delta 在 _consume_reply 中已经发出，因此最终审核不保证此前流式片段也已脱敏。
 
 ## 当前高风险边界
 

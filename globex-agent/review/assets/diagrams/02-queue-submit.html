@@ -1,0 +1,46 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>队列：提交与消费</title>
+<style>body{margin:0;background:white;color:#24262b;font-family:"Microsoft YaHei","PingFang SC",sans-serif}main{max-width:1120px;margin:24px auto;padding:0 24px}svg{display:block;width:100%;height:auto}p{font-size:16px;line-height:1.8;color:#626873;margin:16px 40px}@media print{main{margin:0;padding:0}}</style></head><body><main><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 960" role="img" aria-labelledby="02-queue-submit-title 02-queue-submit-desc">
+<title id="02-queue-submit-title">队列：提交与消费</title><desc id="02-queue-submit-desc">新提交且正常完成的路径；queued、done 与 XACK 是不同写入。</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#626873"/></marker>
+<marker id="arrow-accent" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#ef233c"/></marker>
+<marker id="arrow-link" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#626873"/></marker>
+<marker id="open" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#626873" stroke-width="1.4"/></marker></defs>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<style>text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}</style>
+<rect x="40" y="32" width="8" height="32" rx="4" fill="#ef233c"/>
+<text x="64" y="56" fill="#24262b" font-size="28" font-weight="700" text-anchor="start">队列：提交与消费</text>
+<line x1="120.0" y1="152" x2="120.0" y2="880" stroke="#d3d6dc" stroke-dasharray="5 7"/>
+<rect x="16.0" y="96" width="208" height="56" rx="8" fill="#fff1f2" stroke="#ef233c"/>
+<text x="120.0" y="132" fill="#24262b" font-size="20" font-weight="500" text-anchor="middle">FastAPI</text>
+<line x1="466.6666666666667" y1="152" x2="466.6666666666667" y2="880" stroke="#d3d6dc" stroke-dasharray="5 7"/>
+<rect x="362.6666666666667" y="96" width="208" height="56" rx="8" fill="#fff1f2" stroke="#ef233c"/>
+<text x="466.6666666666667" y="132" fill="#24262b" font-size="20" font-weight="500" text-anchor="middle">Redis</text>
+<line x1="813.3333333333334" y1="152" x2="813.3333333333334" y2="880" stroke="#d3d6dc" stroke-dasharray="5 7"/>
+<rect x="709.3333333333334" y="96" width="208" height="56" rx="8" fill="#fff1f2" stroke="#ef233c"/>
+<text x="813.3333333333334" y="132" fill="#24262b" font-size="20" font-weight="500" text-anchor="middle">worker</text>
+<line x1="1160.0" y1="152" x2="1160.0" y2="880" stroke="#d3d6dc" stroke-dasharray="5 7"/>
+<rect x="1056.0" y="96" width="208" height="56" rx="8" fill="#fff1f2" stroke="#ef233c"/>
+<text x="1160.0" y="132" fill="#24262b" font-size="20" font-weight="500" text-anchor="middle">Orchestrator</text>
+<path d="M 120.0 208 L 466.6666666666667 208" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<rect x="181.33333333333337" y="172" width="224" height="28" rx="4" fill="white"/><text x="293.33333333333337" y="192" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">01  SET NX 去重键 · 600 秒</text>
+<path d="M 120.0 280 L 466.6666666666667 280" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<rect x="209.33333333333337" y="244" width="168" height="28" rx="4" fill="white"/><text x="293.33333333333337" y="264" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">02  XADD IntentTask</text>
+<path d="M 120.0 352 L 466.6666666666667 352" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<rect x="177.33333333333337" y="316" width="232" height="28" rx="4" fill="white"/><text x="293.33333333333337" y="336" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">03  SET TaskStatus = queued</text>
+<path d="M 813.3333333333334 424 L 466.6666666666667 424" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<rect x="532.0" y="388" width="216" height="28" rx="4" fill="white"/><text x="640.0" y="408" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">04  XREADGROUP 领取新消息</text>
+<path d="M 466.6666666666667 496 L 813.3333333333334 496" fill="none" stroke="#626873" stroke-width="1.6" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="576.0" y="460" width="128" height="28" rx="4" fill="white"/><text x="640.0" y="480" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">05  IntentTask</text>
+<path d="M 813.3333333333334 568 L 466.6666666666667 568" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<rect x="520.0" y="532" width="240" height="28" rx="4" fill="white"/><text x="640.0" y="552" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">06  SET TaskStatus = running</text>
+<path d="M 813.3333333333334 640 L 1160.0 640" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<rect x="878.6666666666667" y="604" width="216" height="28" rx="4" fill="white"/><text x="986.6666666666667" y="624" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">07  handle_intent(intent)</text>
+<path d="M 1160.0 712 L 813.3333333333334 712" fill="none" stroke="#626873" stroke-width="1.6" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="834.6666666666667" y="676" width="304" height="28" rx="4" fill="white"/><text x="986.6666666666667" y="696" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">08  SubmitIntentOutput（finally 后）</text>
+<path d="M 813.3333333333334 784 L 466.6666666666667 784" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<rect x="532.0" y="748" width="216" height="28" rx="4" fill="white"/><text x="640.0" y="768" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">09  SET TaskStatus = done</text>
+<path d="M 813.3333333333334 856 L 466.6666666666667 856" fill="none" stroke="#626873" stroke-width="1.6" marker-end="url(#arrow)"/>
+<rect x="564.0" y="820" width="152" height="28" rx="4" fill="white"/><text x="640.0" y="840" fill="#626873" font-size="16" font-weight="500" text-anchor="middle">10  XACK 消费确认</text>
+<line x1="40" y1="904" x2="1240" y2="904" stroke="#e5e7eb"/>
+<text x="40" y="936" fill="#626873" font-size="16" font-weight="500" text-anchor="start">GLOBEX  /  源码流程 · 红色强调关键处理，非风险等级</text>
+</svg><p>新提交且正常完成的路径；queued、done 与 XACK 是不同写入。</p><p>读取可与 queued 写入交错；图中为一种正常时序，跨进程事件见下一图。</p></main></body></html>
